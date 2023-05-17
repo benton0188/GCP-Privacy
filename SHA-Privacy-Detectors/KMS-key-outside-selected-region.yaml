@@ -1,0 +1,35 @@
+severity: HIGH
+description: "Triggers when encryption key are created in location outside selected region"
+recommendation: "To fix this issue go to
+https://console.cloud.google.com/security/kms. Create a new key in the correct region. Ensure that the workload that this key is protecting is in the right region. 
+If not recreate the workload and move all data into the new workload. Use the correct key to protect the newly creared workload. Destroy the old key once you are sure that the new workload and the data within was created successfully." 
+resource_selector:
+  resource_types:
+  - cloudkms.googleapis.com/CryptoKey
+predicate:
+  expression: resource.name.matches('/locations/([REGIONS]/')==false
+custom_output:
+  properties:
+    - name: KMS non-compliant regions Found
+      value_expression:
+        expression: resource.name
+    - name: violation
+      value_expression:
+        expression: >
+          "KMS key found in non-compliant region"
+          
+          
+ --------------------------------------------------------------------------------------------------------------------------------------------         
+
+Name: Key outside selected region
+Description: "Triggers when encryption key are created in location outside selected region"
+Author: Olivier Barescut
+Asset Type: cloudkms.googleapis.com/CryptoKey
+Date Created: 11/16/2022
+    
+        Custom Module: 
+        resource.name.matches('/locations/(*region*/')==false
+        
+        Example: Prevent creation of keys outside of Europe
+        resource.name.matches('/locations/(europe-west[0-9]|europe|eur[3-6]|europe-central2|europe-north1|europe-southwest1)/')==false
+  
