@@ -1,9 +1,0 @@
-{
-    "name": "sample-pubsub",
-    "version": "0.0.1",
-    "dependencies": {
-      "@google-cloud/pubsub": "^0.18.0",
-      "@google-cloud/security-center": "^5.8.0"
-    }
-  }
-  
