@@ -49,7 +49,7 @@ exports.createSccFinding = (event, context) => {
     let bd = payload.serviceData.policyDelta.bindingDeltas;
     console.log('All data present in message');
     bd.forEach(d => {
-      if(d.action=='ADD' && d.role=='roles/owner') {
+      if(d.action=='ADD' && d.role=='roles/owner' || d.role=='roles/editor' || d.role=='role/viewer') {
         console.log('-----> Creating finding in SCC');
         createFinding(payload.resourceName);
       }    
