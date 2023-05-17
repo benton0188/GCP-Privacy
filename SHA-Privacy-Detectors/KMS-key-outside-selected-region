@@ -1,11 +1,12 @@
-Name: "Key outside selected region",
+Name: Key outside selected region
 Description: "Triggers when encryption key are created in location outside selected region"
-Author: "Olivier Barescut",
-Asset Type: "cloudkms.googleapis.com/CryptoKey" 
+Author: Olivier Barescut
+Asset Type: cloudkms.googleapis.com/CryptoKey
 Date Created: 11/16/2022
     
-        Custom Module: "resource.name.matches('/locations/(*region*/')==false"
+        Custom Module: 
+        resource.name.matches('/locations/(*region*/')==false
         
-        Example: "Prevent creation of keys outside of Europe"
-        "resource.name.matches('/locations/(europe-west[0-9]|europe|eur[3-6]|europe-central2|europe-north1|europe-southwest1)/')==false"
+        Example: Prevent creation of keys outside of Europe
+        resource.name.matches('/locations/(europe-west[0-9]|europe|eur[3-6]|europe-central2|europe-north1|europe-southwest1)/')==false
   
