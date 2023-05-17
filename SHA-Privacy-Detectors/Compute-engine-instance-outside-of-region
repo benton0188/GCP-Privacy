@@ -1,0 +1,11 @@
+Name: Compute Engine instance created outside selected region
+Description: Triggers when a compute engine instances are created in location outside selected region
+Author: Garreth Benton
+Asset Type: compute.googleapis.com/Instance
+Date Created: 17/05/2023
+    
+        Custom Module: 
+        resource.name.matches('/zones/(*ZONE*/')==false
+        
+        Example: Prevent creation of keys outside of Germany
+        resource.name.matches('/zones/(europe-west3-a|europe-west3-b|europe-west3-c)/'==false
