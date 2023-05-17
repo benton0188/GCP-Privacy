@@ -1,0 +1,15 @@
+severity: MEDIUM
+description: "Protection level of keys may not be compliant to internal policy"
+recommendation: "To fix this issue you will need to create a key at the apppropriate protection level and rotate the current key reference the newly created key."
+resource_selector:
+  resource_types:
+  - cloudkms.googleapis.com/CryptoKeyVersion
+predicate:
+  expression: resource.protectionLevel != [protectionLevel] # Options are [PROTECTION_LEVEL_UNSPECIFIED, SOFTWARE, HSM, EXTERNAL, EXTERNAL_VPC]
+custom_output: 
+      value_expression:
+        expression: resource.protectionLevel
+    - name: violation
+      value_expression:
+        expression: >
+          "Protection level of keys may not be compliant to internal policy"
