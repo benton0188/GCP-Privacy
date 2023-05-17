@@ -11,7 +11,7 @@ const client = new SecurityCenterClient();
 
 async function createFinding(resource) {
   const [newFinding] = await client.createFinding({
-    parent: 'organizations/680641435372/sources/9947200363055301378',
+    parent: 'organizations/[organization_id]/sources/[source_id]',
     findingId: 'OwRoleAdd' + Date.now(),
     finding: {
       state: 'ACTIVE',
