@@ -8,7 +8,7 @@ def retrieve_cai_bigquery_table_details():
     client = bigquery.Client()
 
     # Retrieve the project ID from the environment
-    project_id = "bq-cryptoshredding"
+    project_id = client.project
 
     # Fetch the CAI (Cloud Asset Inventory) data for the BigQuery tables in all regions
     cai_query = f"""
@@ -46,7 +46,7 @@ def retrieve_kms_key_version(project_id, key_name):
     client = kms_v1.KeyManagementServiceClient()
 
     # Construct the parent key resource name
-    key_parent = client.crypto_key_path_path(project_id, "global", key_name)
+    key_parent = client.crypto_key_path_path(project_id, "us", key_name)
 
     # List the key versions
     key_versions = client.list_crypto_key_versions(request={"parent": key_parent})
