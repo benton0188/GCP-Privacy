@@ -44,6 +44,11 @@ async function createFinding(client, organizationId, sourceId, resource, finding
         seconds: Math.floor(Date.now() / 1000),
         nanos: (Date.now() % 1000) * 1e6,
       },
+      sourceProperties: {
+        projectId: {stringValue: projectId},
+        keyName: {stringValue: keyName},
+        datasetName: {stringValue: datasetName},
+      },
     },
   });
 
