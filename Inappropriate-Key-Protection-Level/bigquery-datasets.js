@@ -30,21 +30,21 @@ async function getProjectDetails() {
   };
 }
 
-async function createFinding(client, organizationId, sourceId, resource, findingId, category) {
+async function createFinding(client, organizationId, sourceId, resourceId, findingId, category, projectId, keyName, datasetName) {
   const [newFinding] = await client.createFinding({
     parent: `organizations/${organizationId}/sources/${sourceId}`,
     findingId: findingId,
     finding: {
       state: 'ACTIVE',
       severity: 'MEDIUM',
-      findingClass: "MISCONFIGURATION",
-      resourceName: resource,
-      category: 'BIGQUERY_DATASET_LOW_PROTECTION_LEVEL',
+      findingClass: 'MISCONFIGURATION',
+      resourceName: resourceId,
+      category: category,
       eventTime: {
         seconds: Math.floor(Date.now() / 1000),
         nanos: (Date.now() % 1000) * 1e6,
       },
-      sourceProperties: {
+    sourceProperties: {
         projectId: {stringValue: projectId},
         keyName: {stringValue: keyName},
         datasetName: {stringValue: datasetName},
@@ -67,11 +67,11 @@ async function checkCAI() {
     const [datasets] = await bigquery.getDatasets();
     for (const dataset of datasets) {
       const [metadata] = await dataset.getMetadata();
-      if ('labels' in metadata && 'classification' in metadata.labels && metadata.labels.classification === 'YOUR_CLASSIFICATION_LABELS') {  //eg 'strictly_confidential'//
+      if ('labels' in metadata && 'classification' in metadata.labels && metadata.labels.classification === 'strictly_confidential') {  // Your classification label e.g. strictly_confidential //
         if (metadata.defaultEncryptionConfiguration && metadata.defaultEncryptionConfiguration.kmsKeyName) {
           const keyName = metadata.defaultEncryptionConfiguration.kmsKeyName;
           const [cryptoKey] = await kmsClient.getCryptoKey({ name: keyName });
-          if (cryptoKey.primary.protectionLevel !== 'HSM' && cryptoKey.primary.protectionLevel !== 'EXTERNAL' && cryptoKey.primary.protectionLevel !== 'EXTERNAL_VPC'){  // What your internal policy states //
+          if (cryptoKey.primary.protectionLevel !== 'HSM' && cryptoKey.primary.protectionLevel !== 'EXTERNAL' && cryptoKey.primary.protectionLevel !== 'EXTERNAL_VPC') { // whatever your internal policy for key protection level states //
             const [source] = await client.createSource({
               parent: `organizations/${YOUR_ORGANIZATION_ID}`,
               source: {
@@ -81,13 +81,16 @@ async function checkCAI() {
             });
             const resourceId = metadata.datasetReference.datasetId;
             const findingId = generateFindingId(dataset.id);
-            const category = 'INTERNAL_POLICY_VIOLATION';
+            const category = 'BIGQUERY_DATASET_LOW_PROTECTION_LEVEL';
+            const projectId = projectDetails.YOUR_PROJECT_ID;
+            const keyName = metadata.defaultEncryptionConfiguration.kmsKeyName;
+            const datasetName = metadata.datasetReference.datasetId;
 
             console.log('Resource name:', resourceId);
             console.log('Finding Id:', findingId);
             console.log('Resource Id:', resourceId);
 
-            await createFinding(client, YOUR_ORGANIZATION_ID, source.name.split('/').pop(), resourceId, findingId, category);
+            await createFinding(client, YOUR_ORGANIZATION_ID, source.name.split('/').pop(), resourceId, findingId, category, projectId, keyName, datasetName);
           }
         }
       }
