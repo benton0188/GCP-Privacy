@@ -1,3 +1,6 @@
+// Install all required NPM packages //
+// Add required env variables i.e. 'YOUR_ORG_ID', Auth credentials //
+
 const { BigQuery } = require('@google-cloud/bigquery');
 const { SecurityCenterClient } = require('@google-cloud/security-center');
 const { KeyManagementServiceClient } = require('@google-cloud/kms');
