@@ -1,8 +1,8 @@
 const { google } = require('googleapis');
 const { SecurityCenterClient } = require('@google-cloud/security-center');
 const { KeyManagementServiceClient } = require('@google-cloud/kms');
-const YOUR_ORGANIZATION_ID = '1044550811724'; // Replace with your Organization ID
-const keys = require('/home/admin_/mykeys/scc-sa.json');
+const YOUR_ORGANIZATION_ID = 'YOUR_ORG_ID'; // Replace with your Organization ID
+const keys = require('YOUR_SA_KEY'); // Replace with your SA with correct permissions
 
 const jwtClient = new google.auth.JWT(
   keys.client_email,
