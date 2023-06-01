@@ -1,5 +1,6 @@
 severity: MEDIUM
 description: "Protection level of keys may not be compliant to internal policy"
+author: Garreth Benton
 recommendation: "To fix this issue you will need to create a key at the apppropriate protection level and rotate the current key reference the newly created key."
 resource_selector:
   resource_types:
