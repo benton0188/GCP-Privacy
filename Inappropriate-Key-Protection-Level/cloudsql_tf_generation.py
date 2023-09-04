@@ -5,7 +5,7 @@ from google.cloud.kms_v1.types import CryptoKey, CryptoKeyVersionTemplate, Prote
 
 def get_cloudsql_instance_details(project_id, instance_name):
     credentials = service_account.Credentials.from_service_account_file(
-        "/home/admin_/cureiamSA.json",
+        "/path/to/SA", #Provide SA Key Path (will remove need for SA)
         scopes=["https://www.googleapis.com/auth/cloud-platform"]
     )
     service = build('sqladmin', 'v1beta4', credentials=credentials)
@@ -62,14 +62,14 @@ resource "google_sql_database_instance" "example" {{
     }}
   }}
 }}
-    """
+    
     
     with open('cloudsql_update.tf', 'w') as f:
         f.write(terraform_content)
 
 if __name__ == "__main__":
-    project_id = "bq-cryptoshredding"  # Write code to get project ID
-    instance_name = "postgres"  #Write code to get instance name
+    project_id = "PROJECT_ID"  # Write code to get project ID
+    instance_name = "INSTANCE_ID"  #Write code to get instance name
 
     # Fetch instance details
     instance_details = get_cloudsql_instance_details(project_id, instance_name)
@@ -79,7 +79,7 @@ if __name__ == "__main__":
 
     if key_rings:
         key_ring_name = key_rings[0]
-        new_key_name = "cloud_sql_hardware"  # Replace with your new key name
+        new_key_name = "KEY_NAME"  # Write code to generate key name based on current naming convention
         
         # Create new key with hardware protection
         create_crypto_key_with_hardware_protection(project_id, key_ring_name, new_key_name)
