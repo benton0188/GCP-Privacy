@@ -12,7 +12,7 @@ resource "google_sql_database_instance" "example" {
     tier = "db-custom-4-26624"
   
     disk_encryption_configuration {
-      kms_key_name = "projects/bq-cryptoshredding/locations/global/keyRings/bq-cryptoshredding/cryptoKeys/cloud_sql_hardware"
+      kms_key_name = "projects/bq-cryptoshredding/locations/global/keyRings/bq-cryptoshredding/cryptoKeys/cloud_sql_hardware2"
     }
 
     labels = {
