@@ -1,0 +1,16 @@
+severity: HIGH
+description: "Firewall rules that allow connections on port 80 may expose resources to attackers." // can change to required port //
+recommendation: "Restrict the firewall rules."
+resource_selector:
+  resource_types:
+  - compute.googleapis.com/Firewall
+predicate:
+  expression: "resource.disabled == false && (!has(resource.direction) || (resource.direction.matches('INGRESS') && (resource.allowed.filter(r, r.IPProtocol.matches('tcp|udp')).exists(r, !has(r.ports) || r.ports.exists(port, port == '80')))))"
+custom_output:
+  properties:
+    - name: direction
+      value_expression:
+        expression: resource.direction
+    - name: firewallDisabled
+      value_expression:
+        expression: resource.disabled
