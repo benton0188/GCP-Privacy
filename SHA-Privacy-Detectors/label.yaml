@@ -7,4 +7,4 @@ resource_selector:
   - compute.googleapis.com/Image
   - compute.googleapis.com/Disk
 predicate:
-  expression: "!has(resource.labels) || ![{'env': 'dev'}, {'department': 'finance'}].all(requiredLabel,(resource.labels.exists(key, (key in requiredLabel) && (resource.labels[key] == requiredLabel[key]))))"
+  expression: !has(resource.labels) || ![{'env': 'dev'}, {'department': 'finance'}].all(requiredLabel,(resource.labels.exists(key, (key in requiredLabel) && (resource.labels[key] == requiredLabel[key]))))
