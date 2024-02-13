@@ -1,0 +1,13 @@
+severity: HIGH
+description: "Only allowlisted public IPs are allowed."
+recommendation: "Configure a private IP instead, following https://cloud.google.com/sql/docs/mysql/configure-private-ip"
+resource_selector:
+  resource_types:
+  - sqladmin.googleapis.com/Instance
+predicate:
+  expression: "(resource.instanceType == 'CLOUD_SQL_INSTANCE' && resource.backendType == 'SECOND_GEN' && resource.settings.ipConfiguration.ipv4Enabled) && !(resource.ipAddresses.all(ip, ip.type != 'PRIMARY' || ['35.224.162.201'].exists(allowedIP, allowedIP == ip.ipAddress)))"
+custom_output:
+  properties:
+    - name: instanceType
+      value_expression:
+        expression: resource.instanceType
