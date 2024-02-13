@@ -1,0 +1,13 @@
+severity: LOW
+description: "Only allow internal ingress traffic."
+recommendation: "Change ingress settings to ALLOW_INTERNAL_ONLY"
+resource_selector:
+  resource_types:
+  - cloudfunctions.googleapis.com/CloudFunction
+predicate:
+  expression: "!resource.ingressSettings.matches('ALLOW_INTERNAL_ONLY')"
+custom_output:
+  properties:
+    - name: ingressSettings
+      value_expression:
+        expression: resource.ingressSettings
