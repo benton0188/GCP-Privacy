@@ -1,0 +1,13 @@
+severity: LOW
+description: "Only allow egress traffic from private ranges."
+recommendation: "Change VPC connector egress settings to PRIVATE_RANGES_ONLY"
+resource_selector:
+  resource_types:
+  - cloudfunctions.googleapis.com/CloudFunction
+predicate:
+  expression: "has(resource.vpcConnectorEgressSettings) && !resource.vpcConnectorEgressSettings.matches('PRIVATE_RANGES_ONLY')"
+custom_output:
+  properties:
+    - name: egressSettings
+      value_expression:
+        expression: resource.vpcConnectorEgressSettings
