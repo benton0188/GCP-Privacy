@@ -1,0 +1,14 @@
+severity: Medium
+description: "Require that a VPC is peered with certain required peers. This is to ensure that a network scanner can scan a VM and timely discover potential network service vulnerabilities."
+recommendation: "Follow the instructions in https://cloud.google.com/vpc/docs/using-vpc-peering to create required VPC network peers."
+resource_selector:
+  resource_types:
+  - compute.googleapis.com/Network
+predicate:
+  expression: "!([{'network': 'https://www.googleapis.com/compute/v1/projects/projecta/global/networks/default$', 'peers': ['https://www.googleapis.com/compute/v1/projects/projectb/global/networks/shared$']}, {'network':'https://www.googleapis.com/compute/v1/projects/projectc/','peers':['https://www.googleapis.com/compute/v1/projects/projectc/']}].all(pair, (!resource.selfLink.matches(pair.network) || pair.peers.all(peer, resource.peerings.exists(p, p.network.matches(peer))))))"
+custom_output:
+  properties:
+    - name: selfLink
+      value_expression:
+        expression: resource.selfLink
+
