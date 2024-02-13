@@ -1,0 +1,19 @@
+severity: HIGH
+description: "Firewall rules that allow connections from all IP addresses may expose resources to attackers."
+recommendation: "Restrict the firewall rules."
+resource_selector:
+  resource_types:
+  - compute.googleapis.com/Firewall
+predicate:
+  expression: "resource.disabled == false && (!has(resource.direction) || (resource.direction.matches('INGRESS') && !has(resource.sourceRanges) || resource.sourceRanges.exists(sr, sr.matches('^0.0.0.0/0$'))))"
+custom_output:
+  properties:
+    - name: direction
+      value_expression:
+        expression: resource.direction
+    - name: firewallDisabled
+      value_expression:
+        expression: resource.disabled
+    - name: sourceRanges
+      value_expression:
+        expression: resource.sourceRanges
