@@ -1,0 +1,13 @@
+severity: HIGH
+description: "Regular key rotation helps provide protection against compromised keys, and limits the number of encrypted messages available to cryptanalysis for a specific key version. Learn more at: https://cloud.google.com/kms/docs/rotating-keys"
+recommendation: "Go to https://console.cloud.google.com/security/kms, click the key-ring that contains the key, click the key, click \"Edit rotation period\", and set the rotation period to at most 90 days."
+resource_selector:
+  resource_types:
+  - cloudkms.googleapis.com/CryptoKey
+predicate:
+  expression: "resource.purpose == 'ENCRYPT_DECRYPT' && resource.primary.state == 'ENABLED' && (resource.rotationPeriod > duration('2160h') || resource.nextRotationTime > now + duration('2160h'))"
+custom_output:
+  properties:
+    - name: duration
+      value_expression:
+        expression: resource.rotationPeriod
