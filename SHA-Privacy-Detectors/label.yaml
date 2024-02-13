@@ -1,5 +1,5 @@
 severity: HIGH
-description: "Compute resources are required to have an 'env' label."   // can be used with other resource types //
+description: "Compute resources are required to have an 'env' label."   #can be used with other resource types#
 recommendation: "Add an 'env' label to the resource, with a value of dev, staging, or prod."
 resource_selector:
   resource_types:
