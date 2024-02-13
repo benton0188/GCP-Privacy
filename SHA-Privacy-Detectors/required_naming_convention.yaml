@@ -1,5 +1,5 @@
 severity: LOW
-description: "All compute instances are required to follow a naming pattern."   // can be use for different resource types //
+description: "All compute instances are required to follow a naming pattern."   # can be use for different resource types #
 recommendation: "Delete the instance and recreate one that follows the naming pattern."
 resource_selector:
   resource_types:
