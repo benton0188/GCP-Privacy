@@ -1,0 +1,16 @@
+severity: LOW
+description: "Services not related to the business should not be enabled."
+recommendation: "Disable the API in violation."
+resource_selector:
+  resource_types:
+  - serviceusage.googleapis.com/Service
+predicate:
+  expression: "resource.state == 'ENABLED' && ['gameservices.googleapis.com','firebase.googleapis.com'].exists(s, s == resource.name)"
+custom_output:
+  properties:
+    - name: state
+      value_expression:
+        expression: resource.state
+    - name: name
+      value_expression:
+        expression: resource.name
