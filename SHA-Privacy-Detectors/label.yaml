@@ -1,0 +1,10 @@
+severity: HIGH
+description: "Compute resources are required to have an 'env' label."
+recommendation: "Add an 'env' label to the resource, with a value of dev, staging, or prod."
+resource_selector:
+  resource_types:
+  - compute.googleapis.com/Instance
+  - compute.googleapis.com/Image
+  - compute.googleapis.com/Disk
+predicate:
+  expression: "!has(resource.labels) || ![{'env': 'dev'}, {'department': 'finance'}].all(requiredLabel,(resource.labels.exists(key, (key in requiredLabel) && (resource.labels[key] == requiredLabel[key]))))"
