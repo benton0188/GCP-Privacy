@@ -1,0 +1,16 @@
+severity: HIGH
+description: "Only allow company users and authorized contractors to have IAM permissions."
+recommendation: "Remove IAM policy bindings for users which are not allowed."
+resource_selector:
+  resource_types:
+  - cloudresourcemanager.googleapis.com/Folder
+  - cloudresourcemanager.googleapis.com/Organization
+  - cloudresourcemanager.googleapis.com/Project
+predicate:
+  expression: "!policy.bindings.all(binding, binding.members.all(m, !m.startsWith(\"user:\") || [\"zuck@gmail.com\"].exists(e, m == \"user:\" + e) || [\"abc.com\", \"corp.abc.com\"].exists(d, m.endsWith(\"@\" + d))))"
+custom_output:
+  properties:
+    - name: name
+      value_expression:
+        expression: resource.name
+
