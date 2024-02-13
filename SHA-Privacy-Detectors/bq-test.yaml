@@ -1,0 +1,9 @@
+severity: HIGH
+description: "Resources with senstive labels should be encrypted with a stronger encryption level."
+recommendation: "Create a new dataset with CMEK or EKM keys."
+resource_selector:
+  resource_types:
+  - bigquery.googleapis.com/Dataset
+  - cloudkms.googleapis.com/CryptoKeyVersion
+predicate:
+  expression: "!resource.protectionLevel.matches("HSM") && !resource.protectionLevel.matches("External") && !resource.protectionLevel.matches("External_VPC") && has(resource.labels) ||[{'classification': 'strictly_confidential'}].all(requiredLabel,(resource.labels.exists(key, (key in requiredLabel) && (resource.labels[key] == requiredLabel[key]))))"
