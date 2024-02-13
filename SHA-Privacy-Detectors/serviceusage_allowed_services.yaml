@@ -1,0 +1,17 @@
+severity: LOW
+description: "Only allow storage related APIs to be enabled."
+recommendation: "Disable the API in violation."
+resource_selector:
+  resource_types:
+  - serviceusage.googleapis.com/Service
+predicate:
+  expression: "resource.state == 'ENABLED' && !(['storage-api.googleapis.com', 'bigquery.googleapis.com', 'bigquery-json.googleapis.com', 'sql-component.googleapis.com', 'spanner.googleapis.com'].exists(s, s == resource.name))"
+custom_output:
+  properties:
+    - name: state
+      value_expression:
+        expression: resource.state
+    - name: name
+      value_expression:
+        expression: resource.name
+
