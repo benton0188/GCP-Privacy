@@ -1,4 +1,4 @@
-**Currently does not support the join of expressions across multiple resources**
+#Currently does not support the join of expressions across multiple resources#
 
 severity: HIGH
 description: "Resources with senstive labels should be encrypted with a stronger encryption level."
