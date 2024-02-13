@@ -1,0 +1,8 @@
+severity: MEDIUM
+description: "The deployer service account can have permissions to create Key Rings, Crypto Keys, and Storage Buckets, but not encrypt/decrypt data."
+recommendation: "Remove the service accounts from the roles that are not allowed."
+resource_selector:
+  resource_types:
+  - cloudresourcemanager.googleapis.com/Project
+predicate:
+  expression: "policy.bindings.exists(binding, binding.members.exists(m, m.matches(\"serviceAccount:[^@]+@(nonprod|prod)-deployment.iam.gserviceaccount.com\")) && ![\"roles/cloudkms.admin$\", \"roles/storage.objectCreator$\"].exists(r, binding.role.matches(r)))"
